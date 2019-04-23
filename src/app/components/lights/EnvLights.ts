@@ -1,14 +1,15 @@
-import { Scene, Light, DirectionalLight, HemisphereLight, Color } from 'three'
+import { Light, DirectionalLight, HemisphereLight } from 'three'
+import GameScene from 'engine/scene'
 
 import dat from 'helpers/dat/dat'
 
 export default class EnvLights {
 
-  private readonly scene: Scene
+  private readonly scene: GameScene
   private readonly hemiLight: Light
   private readonly dirLight: Light
 
-  public constructor(scene: Scene) {
+  public constructor(scene: GameScene) {
     this.scene = scene
     this.dirLight = this.createDirLight()
     this.hemiLight = this.createHemiLight()

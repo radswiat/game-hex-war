@@ -1,4 +1,4 @@
-import {Color, Material, Math, Mesh, MeshPhongMaterial, OBJLoader2} from "three";
+import {Color, Material, Math, Mesh, MeshPhongMaterial, Object3D, OBJLoader2} from "three";
 
 export default class PawnObject {
 
@@ -10,8 +10,8 @@ export default class PawnObject {
 
   }
 
-  public create() {
-    return new Promise((resolve) => {
+  public create(): Promise<Object3D> {
+    return new Promise((resolve): void => {
       this.loader.loadMtl(`lib/assets/pawn2/${PawnObject.textureName}.mtl`, null, (materials: Material) => {
         this.loader.setMaterials(materials)
         this.loader.load(
@@ -24,15 +24,12 @@ export default class PawnObject {
             this.root.position.z = 21
             this.root.rotation.x = Math.degToRad(-90)
 
-            this.root.traverse(function (child) {
+            this.root.traverse((child) => {
               if (child instanceof Mesh) {
                 child.material = new MeshPhongMaterial({
                   color:     new Color('#141515'),
-                  // specular:  0x050505,
                   shininess: 10,
-                  // map:       texture,
-                  // side:      THREE.DoubleSide
-                });
+                })
               }
             } );
             // this.root.rotation.z = 20

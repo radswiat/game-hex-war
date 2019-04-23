@@ -11,11 +11,14 @@
     "checkJs": false,
     "paths": {
       "*": ["types/*"],
+      "types": ["src/app/types.ts"],
+      "config": ["src/app/config/index.ts"],
       "engine/*": ["src/app/engine/*"],
       "helpers/*": ["src/app/helpers/*"],
       "components/*": ["src/app/components/*"],
       "objects/*": ["src/app/objects/*"],
-      "lib/*": ["src/app/lib/*"]
+      "lib/*": ["src/app/lib/*"],
+      "utils/*": ["src/app/utils/*"]
     }
   }
 }

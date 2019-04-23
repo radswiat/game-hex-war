@@ -7,7 +7,7 @@ export default class GameScene {
 
   private readonly renderer: WebGLRenderer
   private readonly scene: Scene
-  private readonly camera: PerspectiveCamera
+  public readonly camera: PerspectiveCamera
 
   public constructor() {
     this.renderer = this.createRenderer()

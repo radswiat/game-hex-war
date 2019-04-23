@@ -6,5 +6,6 @@ module.exports = {
     "semi": ["error", "never"],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-var-requires": 0
   }
 }
