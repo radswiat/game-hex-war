@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
+    "allowJs": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "paths": {
+      "*": ["types/*"],
+      "engine/*": ["src/app/engine/*"],
+      "helpers/*": ["src/app/helpers/*"],
+      "components/*": ["src/app/components/*"],
+      "objects/*": ["src/app/objects/*"],
+      "lib/*": ["src/app/lib/*"]
+    }
+  }
+}
