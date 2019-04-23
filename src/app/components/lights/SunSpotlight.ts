@@ -76,31 +76,36 @@ export default class SunSpotlight {
     const list = ['x', 'y', 'z']
     list.forEach((key) => {
       dat.add('SpotLight', key, {
+        // @ts-ignore
         data: { [key]: this.spotlight.position[key] },
         opts: [0, 10000, 0.0001]
       },
       (val: number): void => {
+        // @ts-ignore
         this.spotlight.position[key] = val
       })
     })
 
     key = 'distance'
     dat.add('SpotLight', key, {
+      // @ts-ignore
       data: { [key]: this.spotlight[key] },
       opts: [0, 30000, 0.0001]
     },
     (val: number): void => {
+      // @ts-ignore
       this.spotlight[key] = val
     })
 
     key = 'decay'
     dat.add('SpotLight', key, {
-        data: { [key]: this.spotlight[key] },
-        opts: [0, 20, 0.0001]
-      },
-      (val: number): void => {
-        this.spotlight[key] = val
-      })
-
+      // @ts-ignore
+      data: { [key]: this.spotlight[key] },
+      opts: [0, 20, 0.0001]
+    },
+    (val: number): void => {
+      // @ts-ignore
+      this.spotlight[key] = val
+    })
   }
 }

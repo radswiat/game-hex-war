@@ -1,6 +1,4 @@
-// import './playground/index'
-
-import {Vector3, ShapeGeometry, Shape, Geometry, Mesh, MeshPhongMaterial, Color, ExtrudeGeometry, Object3D} from 'three'
+import {Vector3, Mesh, MeshPhongMaterial, ExtrudeGeometry, Color} from 'three'
 import './app/lib/polyfills/objloader'
 
 import shapeHex from 'components/shapes/hex'
@@ -87,17 +85,16 @@ export default new class App {
     })
     const material = new MeshPhongMaterial({
       color: randomizeRGB('30, 39, 30', 13),
-      // specular: 0x050505,
-      shininess: 800,
-    });
-    const extMesh = new Mesh(extGeometry, material);
-    extMesh.position.x = pos.x;
-    extMesh.position.y = pos.y;
-    extMesh.position.z = pos.z;
-    extMesh.rotation.x = 90 * 0.0174532925
+      shininess: 15,
+      specular: new Color('#0f170e'),
+    })
+    const extMesh = new Mesh(extGeometry, material)
+    extMesh.position.x = pos.x
+    extMesh.position.y = pos.y
+    extMesh.position.z = pos.z
+    extMesh.rotation.x = Math.PI / 2
     const scale = 0.965
-    extMesh.scale.set(scale, scale, 1);
-    // extMesh.rotateOnAxis(this._vec3,  Math.PI/2);
+    extMesh.scale.set(scale, scale, 1)
     this.scene.scene.add(extMesh)
   }
 }
