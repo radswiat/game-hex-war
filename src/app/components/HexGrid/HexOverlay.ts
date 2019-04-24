@@ -1,11 +1,11 @@
-import {Color, ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3, TextureLoader} from 'three'
+import {Color, ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3} from 'three'
 
 import config from 'config'
 import randomizeRGB from 'utils/randomizeRGB'
 
-export default class Hex {
+export default class HexOverlay {
 
-  private static readonly scale = 0.965
+  private static readonly scale = 0.97
 
   private readonly shape: Shape
 
@@ -31,7 +31,7 @@ export default class Hex {
     this.h = h
     this.shape = shape
 
-    const pos = Hex.toPixels(this)
+    const pos = HexOverlay.toPixels(this)
     const extGeometry = new ExtrudeGeometry(this.shape, {
       bevelEnabled: true,
       bevelSegments: 1,
@@ -40,16 +40,9 @@ export default class Hex {
       bevelThickness: 1.8,
       depth: this.h
     })
-    var loader = new TextureLoader()
-    var textureColor = loader.load("lib/assets/grass/Grass_001_COLOR.jpg")
-    var textureNorm = loader.load("lib/assets/grass/Grass_001_NORM.jpg")
-    var textureDisp = loader.load("lib/assets/grass/Grass_001_DISP.jpg")
     const material = new MeshPhongMaterial({
-      color: randomizeRGB('30, 39, 30', 13),
+      color: new Color('#af8c1f'),
       shininess: 15,
-      // map: textureColor,
-      // normalMap: textureNorm,
-      // displacementMap: textureDisp,
       specular: new Color(this.color),
     })
     const extMesh = new Mesh(extGeometry, material)
@@ -57,7 +50,7 @@ export default class Hex {
     extMesh.position.y = pos.y
     extMesh.position.z = pos.z
     extMesh.rotation.x = Math.PI / 2
-    extMesh.scale.set(Hex.scale, Hex.scale, 1)
+    extMesh.scale.set(HexOverlay.scale, HexOverlay.scale, 1)
     extMesh.name = 'hex'
     // setTimeout(() => {
     //   material.emissive.setHex(new Color('#5a7a89').getHex())
