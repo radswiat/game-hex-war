@@ -18,16 +18,16 @@ export default class PawnObject {
           'lib/assets/pawn2/12937_Wooden_Chess_Pawn_Side_B_V2_L3.obj',
           (event: any): void => {
             this.root = event.detail.loaderRootNode;
-            this.root.scale.set(10, 10, 10)
-            this.root.position.x = -5
+            this.root.scale.set(7, 7, 7)
+            this.root.position.x = -35
             this.root.position.y = 0
-            this.root.position.z = 21
+            this.root.position.z = 35
             this.root.rotation.x = Math.degToRad(-90)
 
             this.root.traverse((child) => {
               if (child instanceof Mesh) {
                 child.material = new MeshPhongMaterial({
-                  color:     new Color('#141515'),
+                  color:     new Color('#a31c11'),
                   shininess: 10,
                 })
               }

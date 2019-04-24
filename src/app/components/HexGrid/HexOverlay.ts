@@ -1,4 +1,4 @@
-import {Color, ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3} from 'three'
+import {Color, ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3, MeshStandardMaterial} from 'three'
 
 import config from 'config'
 import randomizeRGB from 'utils/randomizeRGB'
@@ -44,6 +44,8 @@ export default class HexOverlay {
       color: new Color('#af8c1f'),
       shininess: 15,
       specular: new Color(this.color),
+      // opacity: ,
+      // transparent: true,
     })
     const extMesh = new Mesh(extGeometry, material)
     extMesh.position.x = pos.x
@@ -51,7 +53,7 @@ export default class HexOverlay {
     extMesh.position.z = pos.z
     extMesh.rotation.x = Math.PI / 2
     extMesh.scale.set(HexOverlay.scale, HexOverlay.scale, 1)
-    extMesh.name = 'hex'
+    extMesh.name = 'hexOverlay'
     // setTimeout(() => {
     //   material.emissive.setHex(new Color('#5a7a89').getHex())
     // }, 100)

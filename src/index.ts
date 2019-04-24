@@ -19,7 +19,7 @@ export default new class App {
 
   private async init(): Promise<void> {
     new SunSpotlight(this.scene)
-    new EnvLights(this.scene)
+    // new EnvLights(this.scene)
     new OceanWater(this.scene)
     const p = new Pawn()
     this.scene.add(await p.create())

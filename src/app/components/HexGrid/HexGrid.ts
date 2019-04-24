@@ -26,7 +26,7 @@ export default class HexGrid {
 
   private generateGrid(): void {
     const shape = hexShape.get()
-    let limit = 10
+    let limit = 1600
     Object.keys(map).forEach((point, idx): void => {
       // if (!limit) return
       // limit--
@@ -80,6 +80,8 @@ export default class HexGrid {
   }
 
   private createOverlay({ x, y, z, h, shape }) {
+    var object = this.scene.scene.getObjectByName( 'hexOverlay' )
+    this.scene.scene.remove(object)
     const overlay = new HexOverlay(x, y, -Number(x)-Number(y), h + 1, shape )
     this.scene.add(overlay.render())
   }
@@ -92,21 +94,13 @@ export default class HexGrid {
         y: -(e.clientY / window.innerHeight) * 2 + 1,
       }
 
-      console.log(`${mousePosition.x}:${mousePosition.y}`)
-
       this.raycaster.setFromCamera(mousePosition, this.scene.camera)
       const intersects = this.raycaster.intersectObject(this.cellsGroup, true)
-      console.log(intersects)
       if (intersects.length) {
         const foundCell = this.pixelToCell(intersects[0].point)
-        console.warn(foundCell)
         this.cells.forEach((cell) => {
           if (cell.x === foundCell.x && cell.y === foundCell.y && foundCell.z === cell.z) {
-            console.log(cell)
             this.createOverlay(cell)
-            // cell.color = '#b25d27'
-            // cell.mesh.material.emissive.setHex(new Color('#601312').getHex())
-            // cell.material.emissive.setHex(new Color('#5a7a89').getHex())
           }
         })
       }
