@@ -1,35 +1,55 @@
 // import { Hex } from 'types'
-import {PerspectiveCamera, Raycaster, Object3D, Vector3, Color} from 'three'
-import hexShape from './shapes/hexShape'
-import Hex from './Hex'
-import HexOverlay from './HexOverlay'
+import { Coordinates3D, Coordinates2D } from 'types'
+import { Raycaster, Object3D } from 'three'
 
+import config from 'config'
+import cubeRound from 'utils/cubeRound'
 import randomInt from 'utils/randomInt'
 import GameScene from 'engine/scene'
-import config from "config";
+
+import Hex from './Hex'
+import HexOverlay from './HexOverlay'
+import hexShape from './shapes/hexShape'
+import MouseCaster from './helpers/mouseCaster'
 
 const map = require('config/map.json')
 
 export default class HexGrid {
 
-  private readonly scene: GameScene
+  private readonly gameScene: GameScene
   private readonly raycaster: Raycaster
+  private readonly mouseCaster: MouseCaster
   public cells: Hex[] = []
   public cellsGroup: Object3D = null
 
-  public constructor(scene: GameScene) {
-    this.scene = scene
-    this.generateGrid()
-    this.renderGrid()
-    this.test()
+  /**
+   * Convert pixels ( eg mouse coords ) to cell
+   * eg 8000:8000 to 12,5,-10
+   * @param pos
+   */
+  private static pixelToCell(pos: Coordinates3D): Coordinates3D {
+    const q = pos.x * ((2 / 3) / config.cellSize)
+    const r = ((-pos.x / 3) + (Math.sqrt(3)/3) * pos.z) / config.cellSize
+    return cubeRound(q, r, -q-r)
   }
 
+  public constructor(scene: GameScene) {
+    this.gameScene = scene
+    this.generateGrid()
+    this.renderGrid()
+    // this.test()
+    this.raycaster = new Raycaster()
+    this.mouseCaster = new MouseCaster(this.gameScene)
+    this.mouseCaster.onMouseMove(this.handleMouseMove)
+    this.mouseCaster.onMouseClick(this.handleMouseClick)
+  }
+
+  /**
+   * Generates hexagonal grid
+   */
   private generateGrid(): void {
     const shape = hexShape.get()
-    let limit = 1600
     Object.keys(map).forEach((point, idx): void => {
-      // if (!limit) return
-      // limit--
       const points = point.split(':')
       const x = Number(points[0]) - 45
       const y = Number(points[1]) - 75
@@ -39,71 +59,61 @@ export default class HexGrid {
     })
   }
 
+  /**
+   * Renders grid
+   */
   private renderGrid(): void {
     this.cellsGroup = new Object3D()
     this.cells.forEach((cell) => {
       const renderedCell = cell.render()
       this.cellsGroup.add(renderedCell)
-      this.scene.add(this.cellsGroup)
+      this.gameScene.add(this.cellsGroup)
     })
   }
 
-  _cubeRound(h) {
-    var rx = Math.round(h.q);
-    var ry = Math.round(h.r);
-    var rz = Math.round(h.s);
-
-    var xDiff = Math.abs(rx - h.q);
-    var yDiff = Math.abs(ry - h.r);
-    var zDiff = Math.abs(rz - h.s);
-
-    if (xDiff > yDiff && xDiff > zDiff) {
-      rx = -ry-rz;
-    }
-    else if (yDiff > zDiff) {
-      ry = -rx-rz;
-    }
-    else {
-      rz = -rx-ry;
-    }
-
-    return { x: rx, y: ry, z: rz }
-  }
-
-  pixelToCell(pos) {
-    const cellSize = 50
-    const q = pos.x * ((2 / 3) / cellSize)
-    const r = ((-pos.x / 3) + (Math.sqrt(3)/3) * pos.z) / cellSize
-    return this._cubeRound({
-      q, r, s: -q-r,
-    });
-  }
-
-  private createOverlay({ x, y, z, h, shape }) {
-    var object = this.scene.scene.getObjectByName( 'hexOverlay' )
-    this.scene.scene.remove(object)
+  /**
+   * Create a single overlay hex
+   * @param x
+   * @param y
+   * @param z
+   * @param h
+   * @param shape
+   */
+  private createOverlay({ x, y, h, shape }: Hex): void {
+    const object = this.gameScene.scene.getObjectByName( 'hexOverlay' )
+    this.gameScene.scene.remove(object)
     const overlay = new HexOverlay(x, y, -Number(x)-Number(y), h + 1, shape )
-    this.scene.add(overlay.render())
+    this.gameScene.add(overlay.render())
   }
 
-  private test() {
-    this.raycaster = new Raycaster()
-    document.addEventListener('mousemove', (e: MouseEvent) => {
-      const mousePosition = {
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -(e.clientY / window.innerHeight) * 2 + 1,
-      }
+  private handleMouseMove = (mousePosition: Coordinates2D) => {
+    this.raycaster.setFromCamera(mousePosition, this.gameScene.camera)
+    const intersects = this.raycaster.intersectObject(this.cellsGroup, true)
+    if (intersects.length) {
+      const foundCell = HexGrid.pixelToCell(intersects[0].point)
+      this.cells.forEach((cell) => {
+        if (cell.x === foundCell.x && cell.y === foundCell.y && foundCell.z === cell.z) {
+          this.createOverlay(cell)
+        }
+      })
+    }
+  }
 
-      this.raycaster.setFromCamera(mousePosition, this.scene.camera)
-      const intersects = this.raycaster.intersectObject(this.cellsGroup, true)
-      if (intersects.length) {
-        const foundCell = this.pixelToCell(intersects[0].point)
-        this.cells.forEach((cell) => {
-          if (cell.x === foundCell.x && cell.y === foundCell.y && foundCell.z === cell.z) {
-            this.createOverlay(cell)
+  private handleMouseClick = (mousePosition: Coordinates2D) => {
+    this.raycaster.setFromCamera(mousePosition, this.gameScene.camera)
+    const intersects = this.raycaster.intersectObject(this.cellsGroup, true)
+    if (intersects.length) {
+      const foundCell = HexGrid.pixelToCell(intersects[0].point)
+      this.cells.forEach((cell) => {
+        if (cell.x === foundCell.x && cell.y === foundCell.y && foundCell.z === cell.z) {
+          cell.store = {
+            nationId: 'krakens',
+            nationControlPowers: {
+
+            },
           }
-        })
-      }
-    });
+        }
+      })
+    }
   }
 }

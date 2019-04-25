@@ -7,3 +7,14 @@ export interface Hex {
   h: number;
   shape: Shape;
 }
+
+export interface Coordinates3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Coordinates2D {
+  x: number;
+  y: number;
+}

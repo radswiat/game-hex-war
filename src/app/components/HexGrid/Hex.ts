@@ -10,12 +10,13 @@ export default class Hex {
   private static readonly scale = 0.965
 
   private readonly mesh: Mesh
-  private readonly shape: Shape
+  public readonly shape: Shape
 
   public x: number
   public y: number
   public z: number
   public h: number
+  public store: any
 
   private static toPixels(hex: Hex): Vector3 {
     const vec3 = new Vector3()
@@ -58,6 +59,7 @@ export default class Hex {
   }
 
   public render(): Mesh {
+    console.log('render')
     return this.mesh
   }
 }
