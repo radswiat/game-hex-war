@@ -42,6 +42,7 @@ export default class HexGrid {
     this.mouseCaster = new MouseCaster(this.gameScene)
     this.mouseCaster.onMouseMove(this.handleMouseMove)
     this.mouseCaster.onMouseClick(this.handleMouseClick)
+    this.gameScene.onRender(this.update)
   }
 
   /**
@@ -115,5 +116,9 @@ export default class HexGrid {
         }
       })
     }
+  }
+
+  private update = () => {
+    this.cells.forEach((cell) => cell.update())
   }
 }

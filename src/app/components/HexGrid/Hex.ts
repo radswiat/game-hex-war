@@ -1,4 +1,4 @@
-import { ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3 } from 'three'
+import { ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3, Color } from 'three'
 
 import config from 'config'
 import randomizeRGB from 'utils/randomizeRGB'
@@ -61,5 +61,11 @@ export default class Hex {
   public render(): Mesh {
     console.log('render')
     return this.mesh
+  }
+
+  public update() {
+    if (this.store && this.store.nationId) {
+      this.mesh.material.color = new Color('#ff0003')
+    }
   }
 }
