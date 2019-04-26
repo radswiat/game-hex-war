@@ -2,7 +2,7 @@ import { Math, Object3D, SpotLight, SpotLightHelper, Light, Color } from 'three'
 
 import GameScene from 'engine/scene'
 
-import dat from 'helpers/dat/dat'
+import dat from 'lib/dat/dat'
 
 export default class SunSpotlight {
 

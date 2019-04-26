@@ -1,6 +1,7 @@
 import { ExtrudeGeometry, Mesh, MeshPhongMaterial, Shape, Vector3, Color } from 'three'
 
 import config from 'config'
+import nationsCfg from 'config/nations'
 import randomizeRGB from 'utils/randomizeRGB'
 
 import grassTexture from './textures/grassTexture'
@@ -65,7 +66,7 @@ export default class Hex {
 
   public update() {
     if (this.store && this.store.nationId) {
-      this.mesh.material.color = new Color('#ff0003')
+      this.mesh.material.color = new Color(nationsCfg[this.store.nationId].color)
     }
   }
 }

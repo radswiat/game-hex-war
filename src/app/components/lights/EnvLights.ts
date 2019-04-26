@@ -1,7 +1,7 @@
 import { Light, DirectionalLight, HemisphereLight } from 'three'
 import GameScene from 'engine/scene'
 
-import dat from 'helpers/dat/dat'
+import dat from 'lib/dat/dat'
 
 export default class EnvLights {
 

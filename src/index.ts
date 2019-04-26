@@ -6,6 +6,7 @@ import SunSpotlight from 'components/lights/SunSpotlight'
 import EnvLights from 'components/lights/EnvLights'
 import OceanWater from 'components/oceanWater'
 import Pawn from 'objects/Pawn'
+import TeamEmblems from 'components/teamEmblems'
 
 export default new class App {
 
@@ -14,6 +15,7 @@ export default new class App {
   public constructor() {
     this.scene = new Scene()
     new HexGrid(this.scene)
+    new TeamEmblems(this.scene)
     this.init()
   }
 

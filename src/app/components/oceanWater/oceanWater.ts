@@ -13,7 +13,7 @@ import {
 import './objects/ocean'
 import './objects/sky'
 
-import dat from 'helpers/dat/dat'
+import dat from 'lib/dat/dat'
 
 import GameScene from 'engine/scene'
 

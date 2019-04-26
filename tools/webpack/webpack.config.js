@@ -22,6 +22,7 @@ module.exports = {
       engine: path.resolve(process.cwd(), 'src/app/engine/'),
       objects: path.resolve(process.cwd(), 'src/app/objects/'),
       components: path.resolve(process.cwd(), 'src/app/components/'),
+      stores: path.resolve(process.cwd(), 'src/app/stores/'),
       lib: path.resolve(process.cwd(), 'src/app/lib/'),
     }
   },

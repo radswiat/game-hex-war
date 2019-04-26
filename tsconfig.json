@@ -18,7 +18,8 @@
       "components/*": ["src/app/components/*"],
       "objects/*": ["src/app/objects/*"],
       "lib/*": ["src/app/lib/*"],
-      "utils/*": ["src/app/utils/*"]
+      "utils/*": ["src/app/utils/*"],
+      "stores/*": ["src/app/stores/*"]
     }
   }
 }

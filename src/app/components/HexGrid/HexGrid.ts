@@ -12,6 +12,8 @@ import HexOverlay from './HexOverlay'
 import hexShape from './shapes/hexShape'
 import MouseCaster from './helpers/mouseCaster'
 
+import gameStore from 'stores/gameStore'
+
 const map = require('config/map.json')
 
 export default class HexGrid {
@@ -37,7 +39,6 @@ export default class HexGrid {
     this.gameScene = scene
     this.generateGrid()
     this.renderGrid()
-    // this.test()
     this.raycaster = new Raycaster()
     this.mouseCaster = new MouseCaster(this.gameScene)
     this.mouseCaster.onMouseMove(this.handleMouseMove)
@@ -108,10 +109,8 @@ export default class HexGrid {
       this.cells.forEach((cell) => {
         if (cell.x === foundCell.x && cell.y === foundCell.y && foundCell.z === cell.z) {
           cell.store = {
-            nationId: 'krakens',
-            nationControlPowers: {
-
-            },
+            nationId: gameStore.getNationId(),
+            nationControlPowers: {},
           }
         }
       })
